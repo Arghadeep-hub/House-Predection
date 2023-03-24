@@ -5,14 +5,14 @@ import {
 } from "@/redux/localitySlice";
 import dynamic from "next/dynamic";
 import React, { memo, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const SelectButton = dynamic(() => import("./SelectButton"));
 
 function CustomGrid({ row, col, id, cord }) {
   const [house, setHouse] = useState(false);
   const dispatch = useDispatch();
-
+  // console.log(cord.length);
   const arrayChunk = (arr, n) => {
     const array = arr.slice();
     const chunks = [];
@@ -27,15 +27,17 @@ function CustomGrid({ row, col, id, cord }) {
       // setHouse(false);
       return;
     }
-    switch (value) {
+    value = value.split(" ");
+
+    switch (value[0]) {
       case "house":
-        dispatch(addHouseCords({ id, i, idx, value }));
+        dispatch(addHouseCords({ id, i, idx, value, count:value[1] }));
         setHouse(true);
         break;
 
       default:
         // dispatch(addDistance({ id, cord: i.toString() + idx.toString() }));
-        dispatch(addFacilities({ id, i, idx, value }));
+        dispatch(addFacilities({ id, i, idx, value:value[0] }));
         break;
     }
     return;
@@ -51,6 +53,7 @@ function CustomGrid({ row, col, id, cord }) {
                 key={idx}
                 i={i}
                 idx={idx}
+                cord={cord}
                 handleChnage={handleChnage}
               />
             );

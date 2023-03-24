@@ -1,37 +1,59 @@
 import { AddButton } from "@/component/GridStyle";
-import { addDistance } from "@/redux/localitySlice";
+import { addAvgValue, addDistance, addMinValue } from "@/redux/localitySlice";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { memo, useCallback, useEffect } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const CustomGrid = dynamic(() => import("@/component/CustomGrid"));
 
 function Home() {
+  const [recomend, setRecomend] = useState([]);
   const houses = useSelector((state) => state.locality.houses);
   const dispatch = useDispatch();
 
   const handleRecomendation = useCallback(() => {
+    let houseId = "";
+    let cord = "";
     houses.map((item) => {
-      item.house.map((pin, ids) => {
+      houseId = item.id;
+
+      item.house.map((pin) => {
+        cord = pin.x.toString() + pin.y.toString();
         item.facilities.map((pon, idx) => {
           // console.log(pin, ids);
           // console.log(pon, idx);
 
-          const distance = Math.abs(pin.x - pon.x) + Math.abs(pin.y - pon.y, 2);
+          const distance = Math.abs(pin.x - pon.x) + Math.abs(pin.y - pon.y); //Manhatten Distance
 
           dispatch(
             addDistance({
-              id: item.id,
+              id: houseId,
               distance,
-              cord: pin.x.toString() + pin.y.toString(),
+              cord,
               facility: pon.name,
             })
           );
         });
+        dispatch(addAvgValue({ id: houseId, cord }));
+        dispatch(addMinValue({ id: houseId, cord }));
       });
     });
   }, [houses]);
+
+  useEffect(() => {
+    let min;
+    houses.map((items) => {
+      const res = items.house.filter((pin, i) => {
+        console.log(pin.minScore, `${pin.x} ${pin.y}`);
+        if (i === 0) min = pin.minScore;
+        return min >= pin.minScore;
+      });
+      setRecomend(res);
+    });
+  }, [houses]);
+
+  // console.log(recomend.length > 0 && recomend);
 
   return (
     <>
