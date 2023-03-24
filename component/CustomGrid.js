@@ -31,13 +31,13 @@ function CustomGrid({ row, col, id, cord }) {
 
     switch (value[0]) {
       case "house":
-        dispatch(addHouseCords({ id, i, idx, value, count:value[1] }));
+        dispatch(addHouseCords({ id, i, idx, value, count: value[1] }));
         setHouse(true);
         break;
 
       default:
         // dispatch(addDistance({ id, cord: i.toString() + idx.toString() }));
-        dispatch(addFacilities({ id, i, idx, value:value[0] }));
+        dispatch(addFacilities({ id, i, idx, value: value[0] }));
         break;
     }
     return;

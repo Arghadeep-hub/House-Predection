@@ -1,5 +1,11 @@
-import { AddButton } from "@/component/GridStyle";
+import {
+  AddButton,
+  Heading,
+  ItemsSection,
+  Paragraph,
+} from "@/component/GridStyle";
 import { addAvgValue, addDistance, addMinValue } from "@/redux/localitySlice";
+import { Grid } from "@mui/material";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { memo, useCallback, useEffect, useState } from "react";
@@ -45,7 +51,7 @@ function Home() {
     let min;
     houses.map((items) => {
       const res = items.house.filter((pin, i) => {
-        console.log(pin.minScore, `${pin.x} ${pin.y}`);
+        // console.log(pin.minScore, `${pin.x} ${pin.y}`);
         if (i === 0) min = pin.minScore;
         return min >= pin.minScore;
       });
@@ -75,6 +81,31 @@ function Home() {
             </div>
           );
         })}
+
+      {recomend && (
+        <Grid container spacing={2}>
+          {recomend.map((item, los) => {
+            //console.log(item);
+            return (
+              <Grid key={los} item xs={12} md={6} lg={3}>
+                <ItemsSection>
+                  <Heading>Home {item.count}</Heading>
+                  {item.restaurant && (
+                    <Paragraph>resturant:&nbsp; {item.restaurant} km</Paragraph>
+                  )}
+                  {item.gym && <Paragraph>gym:&nbsp; {item.gym} km</Paragraph>}
+                  {item.hospital && (
+                    <Paragraph>hospital:&nbsp; {item.hospital}km</Paragraph>
+                  )}
+                  {item.school && (
+                    <Paragraph>school:&nbsp; {item.school}km</Paragraph>
+                  )}
+                </ItemsSection>
+              </Grid>
+            );
+          })}
+        </Grid>
+      )}
     </>
   );
 }

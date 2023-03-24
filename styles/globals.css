@@ -2,12 +2,12 @@
 /* font-family: "AvertaStd-Extrathin"; */
 /* font-family: "AvertaStd-ExtrathinItalic"; */
 :root {
-  --dark: #111111;
-  --darkHover: #111111aa;
   --light: #ffffff;
   --lightHover: #ffffffaa;
-  --secondary: #3c4852;
-  --secondaryHover: #3c4852aa;
+  --dark: #3c4852;
+  --darkHover: #3c4852aa;
+  --secondary: #c0c5c6;
+  --secondaryHover: #c0c5c6aa;
 }
 *,
 *::after,
@@ -34,7 +34,7 @@ body {
   justify-content: center;
   align-items: center;
 }
-.flex_container{
+.flex_container {
   display: flex;
   justify-content: center;
   align-items: center;
