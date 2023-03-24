@@ -61,7 +61,19 @@ export const localitySlice = createSlice({
         return;
       });
     },
-
+    removeHouseCords: (state, action) => {
+      const { id, i, idx } = action.payload;
+      // console.log(action.payload);
+      const cord = i.toString() + idx.toString();
+      state.houses.map((items) => {
+        if (items.id === id) {
+          items.house = items.house.filter((pin) => {
+            const itemId = pin.x.toString() + pin.y.toString();
+            return itemId !== cord;
+          });
+        }
+      });
+    },
     addFacilities: (state, action) => {
       // console.log(action.payload);
       const { id, i, idx, value } = action.payload;
@@ -99,6 +111,19 @@ export const localitySlice = createSlice({
           }
         }
         return;
+      });
+    },
+    removeFacilitiesCords: (state, action) => {
+      const { id, i, idx } = action.payload;
+      // console.log(action.payload);
+      const cord = i.toString() + idx.toString();
+      state.houses.map((items) => {
+        if (items.id === id) {
+          items.facilities = items.facilities.filter((pin) => {
+            const itemId = pin.x.toString() + pin.y.toString();
+            return itemId !== cord;
+          });
+        }
       });
     },
     addDistance: (state, action) => {
@@ -227,4 +252,6 @@ export const {
   addDistance,
   addAvgValue,
   addMinValue,
+  removeHouseCords,
+  removeFacilitiesCords,
 } = localitySlice.actions;
