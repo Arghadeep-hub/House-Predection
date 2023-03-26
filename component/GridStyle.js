@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const SelectBtn = styled.select`
   border: 0;
   outline: 0;
-  width: 100px;
+  width: 90px;
   padding: 9px;
   margin: 0 0 4px 0;
   cursor: pointer;

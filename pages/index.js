@@ -21,30 +21,38 @@ function Home() {
   const handleRecomendation = useCallback(() => {
     let houseId = "";
     let cord = "";
-    houses.map((item) => {
-      houseId = item.id;
+    try {
+      houses.map((item) => {
+        houseId = item.id;
+        if (item.house.length === 0) throw "There is no House";
+        if (item.facilities.length === 0)
+          throw "There is no Faciliteis present";
 
-      item.house.map((pin) => {
-        cord = pin.x.toString() + pin.y.toString();
-        item.facilities.map((pon, idx) => {
-          // console.log(pin, ids);
-          // console.log(pon, idx);
+        item.house.map((pin) => {
+          cord = pin.x.toString() + pin.y.toString();
+          item.facilities.map((pon, idx) => {
+            // console.log(pin, ids);
+            // console.log(pon, idx);
 
-          const distance = Math.abs(pin.x - pon.x) + Math.abs(pin.y - pon.y); //Manhatten Distance
+            const distance = Math.abs(pin.x - pon.x) + Math.abs(pin.y - pon.y); //Manhatten Distance
 
-          dispatch(
-            addDistance({
-              id: houseId,
-              distance,
-              cord,
-              facility: pon.name,
-            })
-          );
+            dispatch(
+              addDistance({
+                id: houseId,
+                distance,
+                cord,
+                facility: pon.name,
+              })
+            );
+          });
+          dispatch(addAvgValue({ id: houseId, cord }));
+          dispatch(addMinValue({ id: houseId, cord }));
         });
-        dispatch(addAvgValue({ id: houseId, cord }));
-        dispatch(addMinValue({ id: houseId, cord }));
       });
-    });
+    } catch (error) {
+      console.log(error);
+      alert(error);
+    }
   }, [houses]);
 
   useEffect(() => {
